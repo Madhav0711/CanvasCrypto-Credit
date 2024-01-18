@@ -1,0 +1,55 @@
+
+contract LendNFT = 
+    record state = {
+        all_vaults : map(int, vault),
+        owner : address,
+        vault_counter : int
+        }
+
+    record vault = {
+        borrower : address,
+        nfts : map(address, int),
+        interest_rate : int,
+        borrow_amount : int,
+        payback_time : int
+        }
+
+    entrypoint init() = {
+        owner = Call.caller,
+        all_vaults = {},
+        vault_counter = 0
+        }
+
+    stateful public entrypoint createVault(_interest_rate : int, _borrow_amount : int, _payback_time : int) =
+        require(_interest_rate >= 0, "Interest Rate must be positive")
+        require(_borrow_amount > 0, "Borrow amount must be positive")
+        require(_payback_time > 0, "Payback time must be greter than zero")
+        let new_vault : vault = {
+            borrower = Call.caller,
+            nfts = {},
+            interest_rate = _interest_rate,
+            borrow_amount = _borrow_amount,
+            payback_time = _payback_time + Chain.timestamp
+            }
+        put(state{all_vaults[state.vault_counter] = new_vault})
+        put(state{vault_counter = state.vault_counter + 1})
+
+    stateful public entrypoint addNftToVault(vault_id : int, nft : address, token_id : int) = 
+        require(state.all_vaults[vault_id].borrower == Call.caller, "Caller is not the owner of vault")
+
+
+    stateful entrypoint unlistVault(vaultId : int) =
+        require(state.all_vaults[vaultId].borrower == Call.caller, "You don't own this NFT Vault!")
+        put(state{all_vaults = Map.delete(vaultId, state.all_vaults)})
+        
+
+    /**
+        unlist
+        give loan
+        repay loan
+        retreive all vaults
+        retreive details of a single vault
+    */
+        
+
+    
