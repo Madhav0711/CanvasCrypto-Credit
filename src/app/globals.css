@@ -27,6 +27,8 @@ body {
 }
 body::-webkit-scrollbar{
   display: none;
+  width: 0;
+  overflow-x: hidden;
 }
 .main{
   width: 100%;
@@ -90,4 +92,80 @@ h3{
   font-size: 3.5vw !important;
   color: #dadada69;
   text-shadow: black !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animation to the animated-heading class */
+.animated-heading {
+  animation: fadeIn 1s ease-out;
+}
+
+.reveal{
+  padding-left: 30%;
+  padding-right: 10%;
+}
+
+.reveal-text{
+  font-size: var(--headlineBig);
+
+}
+
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --backgroundColor: #FEF852;
+  --backgroundColorSecondary: #FFFC94;
+  --textPrimaryColor: #2A2A2A;
+
+  --headlineBig: clamp(3rem, 10vw, 15rem);
+  --headlineSmall: clamp(1rem, 1.2vw, 6rem);
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--backgroundColor);
+}
+
+.reveal {
+  background: var(--backgroundColor);
+  padding-left: 30%;
+  padding-right: 10%;
+}
+
+.reveal-text {
+  font-weight: 800;
+  font-size: var(--headlineBig);
+  line-height: var(--headlineBig);
+  color: var(--backgroundColor);
+  filter: drop-shadow(0 0 0.06rem rgb(2, 2, 2));
+}
+
+.spacing-small {
+  height: 50vh;
+}
+
+.spacing {
+  height: 100vh;
+}
+
+@media screen and (max-width: 500px) {
+  .reveal {
+    padding-left: 10px;
+  }
 }

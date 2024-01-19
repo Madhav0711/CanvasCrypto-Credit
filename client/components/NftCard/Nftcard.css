@@ -1,0 +1,17 @@
+.itemStyle {
+    display: inline-block !important;
+    margin-right: 10px;
+    border: 1px solid #ddd !important;
+    padding: 10px;
+    width: 20vw;
+    background: lightblue;
+    height: 45vh !important;
+    overflow-x: hidden;
+    background-color: black;
+  }
+  .card-text {
+    overflow: hidden; /* Hide content that overflows the container */
+    white-space: pre-line; /* Prevent line breaks */
+  }
+
+  
