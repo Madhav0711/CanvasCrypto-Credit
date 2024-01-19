@@ -1,0 +1,48 @@
+
+contract SimpleToken = 
+        
+    record state = {
+        total_suply : int,
+        name : string,
+        balances : map(address, int),
+        owner : address,
+        allowances : map(address, map(address, int))
+        }
+
+    entrypoint init(initial_balance : int, name : string) = {
+        name = name,
+        total_suply = initial_balance,
+        balances = {[Call.caller] = initial_balance},
+        owner = Call.caller,
+        allowances = {}
+        }
+    
+    entrypoint name() : string = 
+        state.name
+
+    public entrypoint balance(account : address) : int = 
+        state.balances[account = 0]
+
+    public stateful entrypoint mint(to : address, amount : int) =
+        let ifOwner = Call.caller == state.owner 
+        require(ifOwner, "Caller is not owner!")
+        put(state{balances[to] = state.balances[to] + amount})
+
+    public stateful entrypoint transfer(recipient : address, value : int) = 
+        require(value > 0, "value must be positive")
+        require(balance(Call.caller) >= value, "Insufficient balance")
+
+        put(state{balances[Call.caller] = state.balances[Call.caller] - value})
+        put(state{balances[recipient] = state.balances[recipient = 0] + value})
+
+        true
+
+    public stateful entrypoint transferFrom(from : address, to : address, value : int) =
+        require(state.allowances[from][to] >= value, "Insuficient allowances")
+        require(state.balances[from] >= value, "Insuficient balance")
+        put(state{balances[from] = state.balances[from] - value})
+        put(state{balances[to] = state.balances[to] + value})
+    
+    public stateful entrypoint approve(spender : address, value : int) =
+        put(state{allowances[Call.caller][spender] = value})
+        

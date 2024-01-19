@@ -1,55 +1,82 @@
+/**
+    unlist
+    give loan
+    repay loan
+    retreive all vaults
+    retreive details of a single vault
+*/
+
+contract interface NFTContract =
+    public stateful entrypoint transferFrom : (address, address, int) => unit
+
+contract interface TokenContract = 
+    public stateful entrypoint transferFrom : (address, address, int) => unit
 
 contract LendNFT = 
     record state = {
-        all_vaults : map(int, vault),
+        token : TokenContract,
+        all_collateral : map(int, collateral),
         owner : address,
-        vault_counter : int
+        nft_counter : int
         }
 
-    record vault = {
-        borrower : address,
-        nfts : map(address, int),
+    record collateral = {
+        creator : address,
+        lender : address,
+        nft : NFTContract,
+        tokenId : int,
         interest_rate : int,
         borrow_amount : int,
-        payback_time : int
+        payback_time : int,
+        isTaken : bool
         }
 
-    entrypoint init() = {
+    entrypoint init(_token : TokenContract) = {
+        token = _token,
+        all_collateral = {},
         owner = Call.caller,
-        all_vaults = {},
-        vault_counter = 0
+        nft_counter = 0
         }
 
-    stateful public entrypoint createVault(_interest_rate : int, _borrow_amount : int, _payback_time : int) =
+    stateful public entrypoint createLoanRequest(_interest_rate : int, _borrow_amount : int, _payback_time : int, _nft : NFTContract, _token_id : int) =
         require(_interest_rate >= 0, "Interest Rate must be positive")
         require(_borrow_amount > 0, "Borrow amount must be positive")
         require(_payback_time > 0, "Payback time must be greter than zero")
-        let new_vault : vault = {
-            borrower = Call.caller,
-            nfts = {},
+        let new_collateral : collateral = {
+            creator = Call.caller,
+            lender = Contract.address,
+            nft = _nft,
+            tokenId = _token_id,
             interest_rate = _interest_rate,
             borrow_amount = _borrow_amount,
-            payback_time = _payback_time + Chain.timestamp
+            payback_time = _payback_time + Chain.timestamp,
+            isTaken = false
             }
-        put(state{all_vaults[state.vault_counter] = new_vault})
-        put(state{vault_counter = state.vault_counter + 1})
 
-    stateful public entrypoint addNftToVault(vault_id : int, nft : address, token_id : int) = 
-        require(state.all_vaults[vault_id].borrower == Call.caller, "Caller is not the owner of vault")
+        put(state{all_collateral[state.nft_counter] = new_collateral})
+        put(state{nft_counter = state.nft_counter + 1})
+        _nft.transferFrom(Call.caller, Contract.address, _token_id)
 
+    stateful entrypoint withdrawLoanRequest(collateralId : int) =
+        let collateral = state.all_collateral[collateralId]
 
-    stateful entrypoint unlistVault(vaultId : int) =
-        require(state.all_vaults[vaultId].borrower == Call.caller, "You don't own this NFT Vault!")
-        put(state{all_vaults = Map.delete(vaultId, state.all_vaults)})
-        
-
-    /**
-        unlist
-        give loan
-        repay loan
-        retreive all vaults
-        retreive details of a single vault
-    */
-        
-
+        require(collateral.creator == Call.caller, "You don't own this NFT Vault!")
+        require(collateral.isTaken == false, "Vault is already taken, cannot be unlisted!")
+        collateral.nft.transferFrom(Contract.address, Call.caller, collateral.tokenId)
+        let updatedCollateral = Map.delete(collateralId, state.all_collateral)
+        put(state{all_collateral = updatedCollateral})
     
+    stateful entrypoint giveLoan(collateralId : int) =
+        let vault = state.all_collateral[collateralId]
+
+        require(vault.creator != Call.caller, "You cannot give loan to yourself!")
+        require(vault.isTaken == false, "Vault is already taken!")
+        
+        state.token.transferFrom(Call.caller, vault.creator, vault.borrow_amount)
+    
+
+    public entrypoint getAllCollateral() : list(int * collateral) =
+        Map.to_list(state.all_collateral)
+
+    // stateful entrypoint liquidate(vaultId : int) = 
+
