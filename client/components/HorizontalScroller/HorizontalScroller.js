@@ -77,7 +77,7 @@ const HorizontalScroller = () => {
   
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} >
         {temporaryNFTData.map((card) => (
           <NFTCard key={card.id} nftData={card} />
         ))}

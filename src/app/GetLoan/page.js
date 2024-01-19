@@ -17,7 +17,7 @@ const page = () => {
                 type="text"
                 name="name"
                 className="form-control"
-                placeholder="Enter Name"
+                placeholder="Enter Account ID"
               />
               
             </div>
@@ -30,7 +30,26 @@ const page = () => {
                 name="email"
                 // onChange={handleInput}
                 className="form-control"
-                placeholder="Enter Email"
+                placeholder="Enter Address"
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary me-2 w-100 my-1 rounded-pill"
+            >
+                Submit
+            </button>
+            
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                // onChange={handleInput}
+                className="form-control"
+                placeholder="Enter Password"
               />
               
             </div>

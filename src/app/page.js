@@ -1,6 +1,9 @@
 import HorizontalScroller from '../../client/components/HorizontalScroller/HorizontalScroller'
+import React from 'react';
+import Link from 'next/link';
 
 export default function Home() {
+
   return (
     <>
     <div data-scroll data-scroll-speed="-5" className="position-relative">
@@ -11,8 +14,8 @@ export default function Home() {
             <h1 className="display-5 fw-bold text- lh-1 mb-3">Welcome to LendNFT</h1>
             <p className="lead landingtext">Unlock the Potential of Your NFTs</p>
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              <button type="button" className="btn btn-outline-light btn-lg px-4 me-md-2 rounded-pill">Get a loan</button>
-              <button type="button" className="btn btn-outline-light btn-lg px-4 me-md-2 rounded-pill">I want to lend</button>
+              <Link href="/GetLoan" type="button" className="btn btn-outline-light btn-lg px-4 me-md-2 rounded-pill">Get a loan</Link>
+              <Link href="/#scroller" type="button" className="btn btn-outline-light btn-lg px-4 me-md-2 rounded-pill">I want to lend</Link>
             </div>
           </div>
         </div>
@@ -21,11 +24,13 @@ export default function Home() {
           <div className="container">
           <h2 className='pt-5 container text-white'>Why LendNFT?</h2>
           <h3 className='animated-heading"'>
-          We at LendNFT redefine NFT ownership, offering a unique pathway to financial flexibility. Unlock liquidity, maintain ownership, and enjoy flexible financing – that's why LendNFT is your key to maximizing the potential of your NFTs.          </h3>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic voluptas nulla tempora. Eius incidunt mollitia reiciendis quis amet id itaque asperiores excepturi quia saepe voluptatum, alias autem, enim maiores reprehenderit?
+          </h3>
           </div>
         </div>
+        <div id="scroller">
         <HorizontalScroller/>
-
+        </div>
         <div className="pt-5" style={{background:"rgb(8,63,220) !important"}}>
         <div className="container" style={{background:"rgb(8,63,220) !important"}}>
           <div className='px-5 row justify-content-center'>

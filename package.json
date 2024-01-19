@@ -11,6 +11,7 @@
   "dependencies": {
     "@aeternity/aepp-sdk": "^13.2.2",
     "file-loader": "^6.2.0",
+    "gsap": "^3.12.5",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"
