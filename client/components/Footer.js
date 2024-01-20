@@ -11,7 +11,7 @@ const Footer = () => {
       <li className="nav-item"><Link href="/GetLoan" className="nav-link px-2 text-light">Loan</Link></li>
       <li className="nav-item"><Link href="/#scroller" className="nav-link px-2 text-light">Lend</Link></li>
     </ul>
-    <p className="text-center text-light">© 2022 Company, Inc</p>
+    <p className="text-center text-light">© 2024 CryptoCanvasCredit, Inc</p>
   </footer>
 </div>
     </div>

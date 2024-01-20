@@ -1,32 +1,24 @@
-// next.config.js
-const path = require('path');
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+      esmExternals: "loose",
+  },
+  webpack: (config) => {
+    //   config.externals = {
+    //       ...config.externals,
+    //       aeternity: "@aeternity/aepp-sdk",
+    //   };
 
-module.exports = {
-  webpack: (config, { isServer }) => {
-    // Adds a rule for MP4 files
-    config.module.rules.push({
-      test: /\.(mp4|webm)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          publicPath: '/_next',
-          name: 'static/media/[name].[ext]',
-        },
-      },
-    });
-
-    // Ignore errors for missing export in the react module
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty',
+      config.module = {
+          ...config.module,
+          rules: [
+              ...config.module.rules,
+              { test: /\.node$/, use: "node-loader" },
+          ],
       };
-    }
 
-    return config;
+      return config;
   },
 };
+
+module.exports = nextConfig;
