@@ -47,15 +47,6 @@ const temporaryNFTData = [
     image: "https://i.em.com.br/iwpMWmXCbQZKdgjC8Y6eeZMmQP8=/750x0/smart/imgsapp.em.com.br/app/noticia_127983242361/2023/09/22/1565597/nft-macaco-fumando_1_34556.png",
     button: 'Borrow',
   },
-  {
-    id: 6,
-    title: "Timeless Elegance #4387",
-    paybackTime: "50 days",
-    requestedAmount: "5 ETH",
-    interestRate: "10%",
-    image: "https://conteudo.imguol.com.br/c/noticias/74/2022/06/06/bored-ape-nft-que-integra-a-colecao-do-bored-ape-yacht-club-1654521934017_v2_900x506.jpg",
-    button: 'Borrow',
-  },
 ];
 
 const Profile = () => {

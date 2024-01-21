@@ -1,24 +1,24 @@
-.itemStyle {
-    display: inline-block !important;
-    margin-right: 10px;
-    border: 1px solid #ddd !important;
-    padding: 10px;
-    width: 20vw;
-    background: lightblue;
-    height: 60vh !important;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-color: black;
-  }
-  .card-text {
-    overflow: hidden; /* Hide content that overflows the container */
-    white-space: pre-line; /* Prevent line breaks */
+  .itemStyle {
+      display: inline-block !important;
+      margin-right: 10px;
+      border: 1px solid #ddd !important;
+      padding: 10px;
+      width: 20vw;
+      background: lightblue;
+      height: 60vh !important;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      background-color: black;
+    }
+    .card-text {
+      overflow: hidden; /* Hide content that overflows the container */
+      white-space: pre-line; /* Prevent line breaks */
+    }
+
+    /* NftCard.css */
+  .nft-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease-in-out; /* Adjust the duration and timing function as needed */
   }
 
-  /* NftCard.css */
-.nft-card:hover {
-  transform: translateY(-5px);
-  transition: transform 0.3s ease-in-out; /* Adjust the duration and timing function as needed */
-}
-
-  
+    

@@ -1,10 +1,3 @@
-/**
-    unlist
-    give loan
-    repay loan
-    retreive all vaults
-    retreive details of a single vault
-*/
 
 contract interface NFTContract =
     public stateful entrypoint transferFrom : (address, address, int) => unit
@@ -66,7 +59,7 @@ contract LendNFT =
         let updatedCollateral = Map.delete(collateralId, state.all_collateral)
         put(state{all_collateral = updatedCollateral})
     
-    stateful entrypoint giveLoan(collateralId : int) =
+    public stateful entrypoint giveLoan(collateralId : int) =
         let vault = state.all_collateral[collateralId]
 
         require(vault.creator != Call.caller, "You cannot give loan to yourself!")
@@ -78,5 +71,20 @@ contract LendNFT =
     public entrypoint getAllCollateral() : list(int * collateral) =
         Map.to_list(state.all_collateral)
 
-    // stateful entrypoint liquidate(vaultId : int) = 
+    public stateful entrypoint liquidate(collateralId : int) = 
+        let collateral = state.all_collateral[collateralId]
+        let hasTimeExpired = Chain.timestamp > collateral.payback_time
+        let isLender = collateral.lender == Call.caller
+        require(isLender, "Caller is not lender")
+        require(hasTimeExpired, "Payback time has not expired!")
+
+        collateral.nft.transferFrom(Contract.address, Call.caller, collateral.tokenId)
+        Map.delete(collateralId, state.all_collateral)
+
+    public stateful entrypoint repayLoan(collateralId : int) = 
+        let collateral = state.all_collateral[collateralId]
+        let hasTimeExpired = Chain.timestamp > collateral.payback_time
+        require(!hasTimeExpired, "Payback time has expired!")
+        let amountToGiveBack = collateral.borrow_amount + collateral.interest_rate * collateral.borrow_amount / 100
+        state.token.transferFrom(Call.caller, collateral.lender, amountToGiveBack)
 
