@@ -6,10 +6,6 @@ Welcome to CanvasCrypto Credit, a decentralized lending platform built on the Ae
 
 - [Getting Started](#getting-started)
 - [How it Works](#how-it-works)
-- [Smart Contracts](#smart-contracts)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
